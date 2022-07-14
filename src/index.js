@@ -43,6 +43,12 @@ function Booklist(){
          <Book job="developer"/>
          <Book title="Some Title" number={22} /> {/* Inside Book component, 1st prop is rendered as string. 2nd prop is rendered as a number. */}
          <Book />
+         <AnotherBook image={firstAnotherBook.image} title={firstAnotherBook.title} author={firstAnotherBook.author} >
+            <p>
+               maecenas pharetra convallis posuere morbi leo urna molestie at elementum eu facilisis sed odio morbi quis commodo odio aenean sed
+            </p>
+         </ AnotherBook>
+         <AnotherBook image={secondAnotherBook.image} title={secondAnotherBook.title} author={secondAnotherBook.author} />
       </section>
    )
 }
@@ -56,7 +62,51 @@ const Book = (props) => {
          <Image />
          <Title />
          <Author />
+         {props.job} <br></br>
+         {props.title} <br></br>
+         {props.number}
          {console.log(props)}  {/* second way to console log */}
+      </article>
+   )
+};
+
+// Just a JS object that we will pass as prop. It gets hoisted up before "BookList" function so it can still be passed into
+// "AnotherBook" component as a prop.
+const firstAnotherBook = {
+   image: 'http://via.placeholder.com/250x360?text=Visit+WhoIsHostingThis.com+Buyers+Guide',
+   title: 'Another Book Title 1',
+   author: 'Another Author 1'
+}
+
+// same as above
+const secondAnotherBook = {
+   image: 'http://via.placeholder.com/250x360?text=Some+Text+LOL+GGWP',
+   title: 'Another Book Title 2',
+   author: 'Another Author 2'
+}
+
+const AnotherBook = ( props /* {image, title, author, children} This will destructure the prop on receiving it. Use it if you wish. */
+   /* Otherwise, you need to receive prop as an object(single parameter) and then use with dot syntax(e.g props.author and props.children) */
+   /* to access the values in JSX. The children prop is special. It has to named children or it won't work. It is a tag that is nested */
+   /* inside the parent tag. It works like slots in vue/laravel. See below how its used. */
+   /* Both types of props(including the slot example) is NOT MANDATORY. If they are missing, they will simply NOT BE RENDERED(i.e blank) in JSX.*/
+   ) => {
+   // const {image, title, author} = props  
+   // You can destructure the prop like this and use it inside the component if you please.
+   // It can also be done inside the function parameter. See above
+   // console.log(props) // first way to console log
+   return (
+      <article className="book">
+         This is another booklist
+         <br></br>
+         {/* <img src={props.image} alt="" />
+         <h1>{props.title}</h1>
+         <h6>{props.author.toUpperCase()}</h6> */}
+         {/* {console.log(props)}  second way to console log */}
+         <img src={props.image} alt="" />
+         <h1>{props.title}</h1>
+         {props.children}
+         <h6>{props.author.toUpperCase()}</h6>
       </article>
    )
 };
